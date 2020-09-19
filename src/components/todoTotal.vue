@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>number of tasks: {{todos.length}}</p>
+    <p id="tasksNumber">number of tasks: {{ todos.length }}</p>
   </div>
 </template>
 <script>
@@ -13,3 +13,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+#tasksNumber {
+  display: inline;
+}
+</style>

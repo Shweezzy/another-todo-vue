@@ -2,8 +2,14 @@
   <div id="app">
     <h1 class="title">{{ title }}</h1>
     <div class="todoList">
-      <input class="inputText" type="text" v-model="todoModel" placeholder="type todo..." />
-      <button @click="addTodo(id++)">add todo</button>
+      <input
+        class="inputText"
+        type="text"
+        v-model="todoModel"
+        placeholder="type todo..."
+        @keyup.enter="addTodo"
+      />
+      <button @click="addTodo">add todo</button>
       <p></p>
       <todo-list :todos="todos" @removeTodo="removeTodo" />
       <hr />
@@ -28,7 +34,6 @@ export default {
       todoModel: "",
       todos: [],
       isDone: false,
-      id: 0,
     };
   },
   mounted() {
@@ -47,7 +52,6 @@ export default {
     addTodo() {
       if (this.todoModel != "") {
         this.todos.push({
-          id: this.id,
           text: this.todoModel,
           isComplete: this.isDone,
         });
@@ -66,9 +70,10 @@ export default {
 <style>
 .title {
   text-align: center;
+  font-family: "Century Gothic", sans-serif;
 }
 .todoList {
-  width: 98%;
+  width: 97.5%;
   height: 100%;
   padding: 1em;
   outline: 1px solid black;
@@ -78,30 +83,29 @@ export default {
   color: rgb(0, 0, 0);
   font-weight: bold;
 }
-#todoText {
-  font-size: 18px;
-  text-transform: capitalize;
-}
 .modelCheck {
   display: inline-block;
-  margin-left: 1em;
+  float: right;
+  transform: scale(1.59);
+  margin-top: 3.7px;
 }
-.todoText {
-  text-transform: capitalize;
-  font-size: 1.5em;
-}
-.deleteTodo {
-  height: 20px;
+span:first-letter {
+  color: red;
 }
 .isComplete {
   color: green;
   text-decoration: line-through;
 }
-.todoId {
-  font-size: 1.5em;
-}
 .inputText {
   width: 80%;
   margin-left: 5%;
+}
+@media only screen and (max-width: 600px) {
+  .inputText {
+    width: 50%;
+  }
+  .todoList {
+    width: 90%;
+  }
 }
 </style>
