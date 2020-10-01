@@ -1,6 +1,6 @@
 <template>
   <div>
-    <add-todo @addTodo="addTodo" />
+    <add-todo :todos="todos" @addTodo="addTodo" />
     <div v-for="(todo, i) in todos" :key="todo.id">
       <p>
         <span class="todoId">{{ i +1 }}</span>
@@ -46,16 +46,6 @@ export default {
         localStorage.setItem(`todos`, JSON.stringify(this.todos));
       },
       deep: true,
-    },
-  },
-  methods: {
-    addTodo(text) {
-      if (this.todoModel != "") {
-        this.todos.push({
-          text: text,
-          isComplete: this.isDone,
-        });
-      }
     },
   },
 };
