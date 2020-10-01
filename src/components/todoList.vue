@@ -1,33 +1,61 @@
 <template>
   <div>
+    <add-todo @addTodo="addTodo" />
     <div v-for="(todo, i) in todos" :key="todo.id">
-      <p class="todoP">
-        <span class="todoId">{{ i + 1 }}.</span>
-        <span class="todoText" :class="{ isComplete: todo.isComplete }">{{
-          todo.text
-        }}</span>
-        <button class="deleteTodo" @click="removeItem(i)">X</button>
+      <p>
+        <span class="todoId">{{ i +1 }}</span>
+        <span class="todoText">
+          <strong>.</strong>
+          <span :class="{isComplete: todo.isComplete}">{{ todo.text }}</span>
+        </span>
+        <remove-todo :todos="todos" />
         <input v-model="todo.isComplete" type="checkbox" class="modelCheck" />
       </p>
     </div>
+    <hr />
+    <total-todos :todos="todos" style="float: right" />
   </div>
 </template>
 
 <script>
+
+import addTodo from "./addTodo";
+import totalTodos from "./totalTodos";
+import removeTodo from "./removeTodo";
+
 export default {
   name: "todoList",
-  props: {
+  components: {
+    addTodo,
+    totalTodos,
+    removeTodo,
+  },
+  data() {
+    return {
+      todos: [],
+      isDone: false,
+    };
+  },
+  mounted() {
+    if (localStorage.getItem("todos"))
+      this.todos = JSON.parse(localStorage.getItem("todos"));
+  },
+  watch: {
     todos: {
-      type: [Array],
-      required: true,
-    },
-    removeTodo: {
-      type: Function,
+      handler() {
+        localStorage.setItem(`todos`, JSON.stringify(this.todos));
+      },
+      deep: true,
     },
   },
   methods: {
-    removeItem(index) {
-      this.$emit("removeTodo", index);
+    addTodo(text) {
+      if (this.todoModel != "") {
+        this.todos.push({
+          text: text,
+          isComplete: this.isDone,
+        });
+      }
     },
   },
 };
